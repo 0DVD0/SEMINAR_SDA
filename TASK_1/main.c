@@ -119,7 +119,7 @@ void top_five_categories(sale *vect, int nr_lines) {
     }
 
     // Display top five categories
-    printf("Top five sold categories by total cost:\n");
+    printf("Top 5 categorii:\n");
     for (int i = 0; i < 5; i++) {
         printf("Category: %s, Total Cost: %.2lf$\n", categories[i].category, categories[i].total_cost);
     }
@@ -164,7 +164,7 @@ int main() {
     sale *vect;
     char category[MAX], country[MAX];
 
-    FILE *f = fopen("C:\\Users\\Asus\\Desktop\\SEMINAR SDA\\sales.txt", "rw+");
+    FILE *f = fopen("C:\\Users\\Asus\\Desktop\\SEMINAR SDA\\TASK_1\\sales.txt", "rw+");
     if (f == NULL) {
         printf("fisierul nu poate fi citit");
         return 0;
