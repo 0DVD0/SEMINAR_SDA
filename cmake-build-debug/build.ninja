@@ -49,17 +49,17 @@ cmake_ninja_workdir = C$:/Users/Asus/Desktop/SEMINAR$ SDA/cmake-build-debug/
 
 build cmake_object_order_depends_target_SEMINAR_SDA: phony || CMakeFiles/SEMINAR_SDA.dir
 
-build CMakeFiles/SEMINAR_SDA.dir/main.c.obj: C_COMPILER__SEMINAR_SDA_unscanned_Debug C$:/Users/Asus/Desktop/SEMINAR$ SDA/main.c || cmake_object_order_depends_target_SEMINAR_SDA
-  DEP_FILE = CMakeFiles\SEMINAR_SDA.dir\main.c.obj.d
+build CMakeFiles/SEMINAR_SDA.dir/TASK_1/task1.c.obj: C_COMPILER__SEMINAR_SDA_unscanned_Debug C$:/Users/Asus/Desktop/SEMINAR$ SDA/TASK_1/task1.c || cmake_object_order_depends_target_SEMINAR_SDA
+  DEP_FILE = CMakeFiles\SEMINAR_SDA.dir\TASK_1\task1.c.obj.d
   FLAGS = -g -std=gnu2x -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\SEMINAR_SDA.dir
-  OBJECT_FILE_DIR = CMakeFiles\SEMINAR_SDA.dir
+  OBJECT_FILE_DIR = CMakeFiles\SEMINAR_SDA.dir\TASK_1
 
-build CMakeFiles/SEMINAR_SDA.dir/SAMIBAGPULA.c.obj: C_COMPILER__SEMINAR_SDA_unscanned_Debug C$:/Users/Asus/Desktop/SEMINAR$ SDA/cmake-build-debug/SAMIBAGPULA.c || cmake_object_order_depends_target_SEMINAR_SDA
-  DEP_FILE = CMakeFiles\SEMINAR_SDA.dir\SAMIBAGPULA.c.obj.d
+build CMakeFiles/SEMINAR_SDA.dir/TASK_2/LINV2.c.obj: C_COMPILER__SEMINAR_SDA_unscanned_Debug C$:/Users/Asus/Desktop/SEMINAR$ SDA/TASK_2/LINV2.c || cmake_object_order_depends_target_SEMINAR_SDA
+  DEP_FILE = CMakeFiles\SEMINAR_SDA.dir\TASK_2\LINV2.c.obj.d
   FLAGS = -g -std=gnu2x -fdiagnostics-color=always
   OBJECT_DIR = CMakeFiles\SEMINAR_SDA.dir
-  OBJECT_FILE_DIR = CMakeFiles\SEMINAR_SDA.dir
+  OBJECT_FILE_DIR = CMakeFiles\SEMINAR_SDA.dir\TASK_2
 
 
 # =============================================================================
@@ -69,7 +69,7 @@ build CMakeFiles/SEMINAR_SDA.dir/SAMIBAGPULA.c.obj: C_COMPILER__SEMINAR_SDA_unsc
 #############################################
 # Link the executable SEMINAR_SDA.exe
 
-build SEMINAR_SDA.exe: C_EXECUTABLE_LINKER__SEMINAR_SDA_Debug CMakeFiles/SEMINAR_SDA.dir/main.c.obj CMakeFiles/SEMINAR_SDA.dir/SAMIBAGPULA.c.obj
+build SEMINAR_SDA.exe: C_EXECUTABLE_LINKER__SEMINAR_SDA_Debug CMakeFiles/SEMINAR_SDA.dir/TASK_1/task1.c.obj CMakeFiles/SEMINAR_SDA.dir/TASK_2/LINV2.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\SEMINAR_SDA.dir

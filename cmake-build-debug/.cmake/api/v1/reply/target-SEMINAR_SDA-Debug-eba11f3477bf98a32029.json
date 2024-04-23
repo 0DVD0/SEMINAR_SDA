@@ -100,13 +100,13 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "main.c",
+			"path" : "TASK_1/task1.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "cmake-build-debug/SAMIBAGPULA.c",
+			"path" : "TASK_2/LINV2.c",
 			"sourceGroupIndex" : 0
 		}
 	],
