@@ -1,1 +1,1 @@
-Am facut tot inafara de tendita lunara
+Finished both tasks for the seminar
