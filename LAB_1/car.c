@@ -71,7 +71,7 @@ int main() {
     int an, pret;
     char brand[max];
 
-    FILE *f = fopen("C:\\Users\\Asus\\Desktop\\Labsda1\\masini.txt", "rw+");
+    FILE *f = fopen("C:\\Users\\Asus\\Desktop\\SEMINAR SDA\\LAB_1\\masini.txt", "rw+");
     if (f == NULL) {
         printf("fisierul nu poate fii citit");
         return 0;

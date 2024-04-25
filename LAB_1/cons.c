@@ -159,7 +159,7 @@ int main() {
     char *brand;
     car *vect;
     brand= malloc(sizeof(char) * 10);
-    FILE *f = fopen("C:\\Users\\Asus\\Desktop\\Labsda1\\masini.txt", "rw+");
+    FILE *f = fopen("C:\\Users\\Asus\\Desktop\\SEMINAR SDA\\LAB_1\\masini.txt", "rw+");
     if (f == NULL) {
         printf("fisierul nu poate fii citit");
         return 0;

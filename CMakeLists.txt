@@ -3,5 +3,8 @@ project(SEMINAR_SDA C)
 
 set(CMAKE_C_STANDARD 23)
 
-add_executable(
+add_executable(car.c
+        cons.c
+        Lab2.c
+        LAB3_.c
 )
