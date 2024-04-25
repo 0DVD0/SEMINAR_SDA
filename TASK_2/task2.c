@@ -3,7 +3,6 @@
 #include <string.h>
 #include <conio.h>
 
-
 typedef struct Document
 {
     int doc_id;
@@ -29,7 +28,6 @@ typedef struct Printed_docs
     int left_lines_to_print;
     struct Printed_docs * next;
 }Printed_docs;
-
 
 void add_new_doc_in_queue(Document ** queue, int id, char *name, int total_lines,int left_lines){
     Document * new_doc = (Document*)malloc(sizeof(Document));
