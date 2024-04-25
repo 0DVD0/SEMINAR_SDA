@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/Asus/Desktop/SEMINAR SDA
+# Install script for directory: C:/Users/Asus/Documents/GitHub/SEMINAR_SDA
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/Asus/Desktop/SEMINAR SDA/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Users/Asus/Documents/GitHub/SEMINAR_SDA/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
