@@ -1,0 +1,5 @@
+Mercedes 2015 7000
+BMW 2019 15000
+Volkswagen 2010 4000
+Renault 2020 13000
+Mazda 2013 4000
