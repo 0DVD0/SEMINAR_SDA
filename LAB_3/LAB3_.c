@@ -11,11 +11,11 @@ enum CHOICE{
     EXIT = 0,
     READ_TREE = 1,
     PRINT_FULL_TREE = 2,
-    CALCULATE_DEPTH_TREE = 3,
+    SVD = 3,
     SEARCH_NODE = 4,
-    CALCULATE_DEPTH_NODE = 5,
-    CALCULATE_HEIGHT_NODE = 6,
-    PRINT_LEAF = 7,
+    VSD = 5,
+    SDV = 6,
+    BSF = 7,
     CLEAN_TREE = 8,
     FREE_MEMORY = 9,
 };
@@ -85,24 +85,24 @@ int tree_depth(Node* root) {
 /**
  * Search for a node with the given key in the binary tree rooted at 'root'.
  * @param root The root of the binary tree.
- * @param key The key value to search for.
+ * @param key The key value to search_by_key for.
  * @return A pointer to the node with the given key, or NULL if not found.
  */
-Node* search(Node* root, int key) {
+Node* search_by_key(Node* root, int key) {
     if (root == NULL || root->key == key) {
         return root;
     }
     if (root->key < key) {
-        return search(root->right, key);
+        return search_by_key(root->right, key);
     }
-    return search(root->left, key);
+    return search_by_key(root->left, key);
 }
 
 /**
  * Calculate the depth of the node with the given key in the binary tree rooted at 'root'.
  * @param root The root of the binary tree.
  * @param key The key value of the node to calculate the depth for.
- * @param depth The current depth of the search.
+ * @param depth The current depth of the search_by_key.
  * @return The depth of the node with the given key, or -1 if not found.
  */
 int node_depth(Node* root, int key, int depth) {
@@ -125,7 +125,7 @@ int node_depth(Node* root, int key, int depth) {
  * @return The height of the node with the given key, or -1 if not found.
  */
 int get_node_height(Node* root, int key) {
-    Node* node = search(root, key);
+    Node* node = search_by_key(root, key);
     if (node == NULL) {
         return -1;
     }
@@ -199,29 +199,29 @@ int main() {
                 print_full_tree(root);
                 printf("\n");
                 break;
-            case CALCULATE_DEPTH_TREE:
+            case SVD:
                 printf("The depth of the tree is: %d\n", tree_depth(root));
                 break;
             case SEARCH_NODE:
-                printf("Enter the search key: ");
+                printf("Enter the search_by_key key: ");
                 scanf("%d", &key);
-                if (search(root, key) != NULL) {
+                if (search_by_key(root, key) != NULL) {
                     printf("The node with key %d exists in the tree.\n", key);
                 } else {
                     printf("The node with key %d does not exist in the tree.\n", key);
                 }
                 break;
-            case CALCULATE_DEPTH_NODE:
-                printf("Enter the search key: ");
+            case VSD:
+                printf("Enter the search_by_key key: ");
                 scanf("%d", &key);
                 printf("The depth of the node is: %d\n", node_depth(root, key, 1));
                 break;
-            case CALCULATE_HEIGHT_NODE:
-                printf("Enter the search key: ");
+            case SDV:
+                printf("Enter the search_by_key key: ");
                 scanf("%d", &key);
                 printf("The height of the node is: %d\n", get_node_height(root, key));
                 break;
-            case PRINT_LEAF:
+            case BSF:
                 printf("The leaf nodes of the tree are: ");
                 print_leaves(root);
                 printf("\n");

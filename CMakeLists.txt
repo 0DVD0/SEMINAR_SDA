@@ -7,5 +7,4 @@ add_executable(car.c
         cons.c
         Lab2.c
         LAB3_.c
-        binary_tree_balance.c
 )
