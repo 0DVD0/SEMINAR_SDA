@@ -10,7 +10,7 @@ typedef struct Node {
 enum CHOICE{
     EXIT = 0,
     READ_TREE = 1,
-    PRINT_FULL_TREE = 2,
+    PRINT_TREE = 2,
     SVD = 3,
     SEARCH_NODE = 4,
     VSD = 5,
@@ -59,11 +59,11 @@ Node* insert_node_in_tree(Node* root, int key) {
  * Perform a pre-order traversal of the binary tree rooted at 'root' and print the keys.
  * @param root The root of the binary tree.
  */
-void print_full_tree(Node* root) {
+void print_tree(Node* root) {
     if (root != NULL) {
         printf("%d ", root->key);
-        print_full_tree(root->left);
-        print_full_tree(root->right);
+        print_tree(root->left);
+        print_tree(root->right);
     }
 }
 
@@ -85,7 +85,7 @@ int tree_depth(Node* root) {
 /**
  * Search for a node with the given key in the binary tree rooted at 'root'.
  * @param root The root of the binary tree.
- * @param key The key value to search_by_key for.
+ * @param key The key value to search_node_by_key for.
  * @return A pointer to the node with the given key, or NULL if not found.
  */
 Node* search_by_key(Node* root, int key) {
@@ -102,7 +102,7 @@ Node* search_by_key(Node* root, int key) {
  * Calculate the depth of the node with the given key in the binary tree rooted at 'root'.
  * @param root The root of the binary tree.
  * @param key The key value of the node to calculate the depth for.
- * @param depth The current depth of the search_by_key.
+ * @param depth The current depth of the search_node_by_key.
  * @return The depth of the node with the given key, or -1 if not found.
  */
 int node_depth(Node* root, int key, int depth) {
@@ -119,10 +119,10 @@ int node_depth(Node* root, int key, int depth) {
 }
 
 /**
- * Calculate the height of the node with the given key in the binary tree rooted at 'root'.
+ * Calculate the get_height of the node with the given key in the binary tree rooted at 'root'.
  * @param root The root of the binary tree.
- * @param key The key value of the node to calculate the height for.
- * @return The height of the node with the given key, or -1 if not found.
+ * @param key The key value of the node to calculate the get_height for.
+ * @return The get_height of the node with the given key, or -1 if not found.
  */
 int get_node_height(Node* root, int key) {
     Node* node = search_by_key(root, key);
@@ -167,7 +167,7 @@ void print_menu() {
     printf("3. Calculate the depth of the tree\n");
     printf("4. Search for a node in the tree\n");
     printf("5. Calculate the depth of a node\n");
-    printf("6. Calculate the height of a node\n");
+    printf("6. Calculate the get_height of a node\n");
     printf("7. Display all the leaf nodes of the tree\n");
     printf("8. Clean the tree\n");
     printf("9. Free the memory of the tree\n");
@@ -194,16 +194,16 @@ int main() {
                     root = insert_node_in_tree(root, key);
                 }
                 break;
-            case PRINT_FULL_TREE:
+            case PRINT_TREE:
                 printf("The elements of the tree are: ");
-                print_full_tree(root);
+                print_tree(root);
                 printf("\n");
                 break;
             case SVD:
                 printf("The depth of the tree is: %d\n", tree_depth(root));
                 break;
             case SEARCH_NODE:
-                printf("Enter the search_by_key key: ");
+                printf("Enter the search_node_by_key key: ");
                 scanf("%d", &key);
                 if (search_by_key(root, key) != NULL) {
                     printf("The node with key %d exists in the tree.\n", key);
@@ -212,14 +212,14 @@ int main() {
                 }
                 break;
             case VSD:
-                printf("Enter the search_by_key key: ");
+                printf("Enter the search_node_by_key key: ");
                 scanf("%d", &key);
                 printf("The depth of the node is: %d\n", node_depth(root, key, 1));
                 break;
             case SDV:
-                printf("Enter the search_by_key key: ");
+                printf("Enter the search_node_by_key key: ");
                 scanf("%d", &key);
-                printf("The height of the node is: %d\n", get_node_height(root, key));
+                printf("The get_height of the node is: %d\n", get_node_height(root, key));
                 break;
             case BSF:
                 printf("The leaf nodes of the tree are: ");

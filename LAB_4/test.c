@@ -15,10 +15,14 @@ typedef struct Node {
     struct Node *right;
 } Node;
 
+typedef struct BinaryTree {
+    Node *root;
+} BinaryTree;
+
 enum CHOICE{
     EXIT = 0,
     READ_TREE = 1,
-    PRINT_FULL_TREE = 2,
+    PRINT_TREE = 2,
     SEARCH_NODE = 3,
     SVD = 4,
     VSD = 5,
@@ -33,10 +37,20 @@ enum CHOICE{
 };
 
 /**
+ * This function allocates memory for a new BinaryTree structure and returns a pointer to it.
+ * The root of the tree is initialized to NULL.
+ * @return A pointer to the newly created BinaryTree structure
+ */
+BinaryTree *create_binary_tree(){
+    BinaryTree *Tree = (BinaryTree *) malloc(sizeof(BinaryTree));
+    return Tree;
+}
+
+/**
  * Reads the details of an iPhone from the user.
  * @return An initialized Iphone structure.
  */
-struct iphone read_phone() {
+Iphone read_phone() {
     Iphone* new_phone = (Iphone*)malloc(sizeof(Iphone));
     if (new_phone == NULL) {
         printf("Memory allocation error.\n");
@@ -61,116 +75,183 @@ struct iphone read_phone() {
 /**
  * Create a new node with the given key and allocate memory for it.
  * @param key The key value for the new node.
+ * @param new_phone The iPhone details to be stored in the new node.
  * @return A pointer to the newly created node.
  */
-Node* create_node(int key) {
+Node* create_node(Iphone new_phone, int key) {
     Node* new_node = (Node*)malloc(sizeof(Node));
     if (new_node == NULL) {
         printf("Memory allocation error.\n");
         exit(EXIT_FAILURE);
     }
     new_node->key = key;
-    new_node->phone = read_phone();
+    new_node->phone = new_phone;
     new_node->left = NULL;
     new_node->right = NULL;
     return new_node;
 }
 
 /**
- * Insert a node with the given key into the binary tree rooted at 'root'.
- * @param root The root of the binary tree.
- * @param key The key value to insert.
- * @return The root of the modified binary tree.
+ * This function is used to insert a new node into the binary tree.
+ * @param current_node The current node in the binary tree
+ * @param new_node The new node to be inserted into the binary tree
  */
-Node* insert_node_in_tree(Node* root, int key) {
-    if (root == NULL) {
-        return create_node(key);
-    }
-    if (key < root->key) {
-        root->left = insert_node_in_tree(root->left, key);
-    } else if (key > root->key) {
-        root->right = insert_node_in_tree(root->right, key);
-    }
-    return root; // Return the root node after insertion
+void insert_node(Node *current_node, Node *new_node) {
+
+    if (new_node->key < current_node->key) {
+        if (current_node->left) {
+            insert_node(current_node->left, new_node);
+        } else {
+            current_node->left = new_node;
+        }
+    } else if(new_node->key > current_node->key) {
+        if (current_node->right) {
+            insert_node(current_node->right, new_node);
+        } else {
+            current_node->right = new_node;
+        }
+        }
 }
 
 /**
- * Prints the details of an iPhone stored in a node.
- * @param root The node containing the iPhone details to print.
+ * Insert a node with the given key into the binary tree rooted at 'root'.
+ * @param tree The pointer of the binary tree
+ * @param key The key value to insert.
  */
-void print_phone(Node * root){
-    Iphone phone = root->phone;
-    printf("%s\n",phone.model);
-    printf("%d\n", phone.price);
-    printf("%d\n", phone.year);
-    printf("%d\n", phone.capacity);
+void insert_node_in_tree(BinaryTree *tree, Node *new_node) {
+    if (!tree->root) {
+        tree->root= new_node;
+    }
+    insert_node(tree->root, new_node);
+}
+
+
+/**
+ * Prints the details of an iPhone stored in a node.
+ * @param iphone the phone containde in the current node
+ */
+void print_phone(Iphone iphone){
+    printf("%s\n",iphone.model);
+    printf("%d\n", iphone.price);
+    printf("%d\n", iphone.year);
+    printf("%d\n", iphone.capacity);
+}
+
+/**
+ *Prints the key and the iPhone details of a node.
+ * @param node  The node to print.
+ */
+void print_node(Node *node) {
+    printf("Key: %d\n", node->key);
+    print_phone(node->phone);
+}
+
+/**
+ *This function is a helper function for printing the binary tree.
+ * @param current_node The current node in the binary tree.
+ */
+void print_tree_helper(Node *current_node){
+    if (!current_node) {
+        return;
+    }
+    print_node(current_node);
+    print_tree_helper(current_node->left);
+    print_tree_helper(current_node->right);
 }
 
 /**
  * Perform a pre-order traversal of the binary tree rooted at 'root' and print the keys and the iphone inside the element.
- * @param root The root of the binary tree.
+ * @param tree The pointer of the binary tree.
  */
-void print_full_tree(Node* root) {
-    if (root != NULL) {
-        printf("The phone in the %d node ", root->key);
-        print_phone(root);
-        print_full_tree(root->left);
-        print_full_tree(root->right);
+void print_binary_tree(BinaryTree *tree) {
+    if (!tree->root ) {
+        return;
     }
+    print_tree_helper(tree->root);
 }
+
 
 /**
  * Perform an in-order traversal of the binary tree rooted at 'root' and print the keys.
- * @param root The root of the binary tree.
+ * @param node The node of the binary tree.
  */
-void svd_traversal(Node* root){
-    if(root == NULL){
+void svd_traversal_helper(Node* node){
+    if(node == NULL){
         return;
     }
-    svd_traversal(root->left);
-    printf("%d", root->key);
-    svd_traversal(root->right);
+    svd_traversal_helper(node->left);
+    printf("%d", node->key);
+    svd_traversal_helper(node->right);
 }
 
 /**
- * Perform a pre-order traversal of the binary tree rooted at 'root' and print the keys.
- * @param root The root of the binary tree.
+ *This function performs an in-order traversal of the binary tree rooted at 'tree'
+ * and prints the keys of the nodes in the tree.
+ * @param tree The pointer to the binary tree
  */
-void vsd_traversal(Node* root){
-    if(root == NULL){
+void svd_traversal(BinaryTree *tree){
+    printf("The tree in a In-order traversal:");
+    svd_traversal_helper(tree->root);
+}
+
+/**
+ *This function is a helper function for performing a pre-order traversal of the binary tree.
+ * It prints the key of each node in the tree.
+ * @param node The current node in the binary tree.
+ */
+void vsd_traversal_helper(Node* node){
+if(node == NULL){
+return;
+}
+printf("%d", node->key);
+vsd_traversal_helper(node->left);
+vsd_traversal_helper(node->right);
+}
+/**
+ * Perform a pre-order traversal of the binary tree rooted at 'node' and print the keys.
+ * @param tree The poiner of the binary tree.
+ */
+void vsd_traversal(BinaryTree *tree){
+    printf("The tree in a Pre-order traversal:");
+    vsd_traversal_helper(tree->root);
+}
+
+ /**
+  *This function is a helper function for performing a post-order traversal of the binary tree.
+ * It prints the key of each node in the tree.
+  * @param node  The current node in the binary tree.
+  */
+void sdv_traversal_helper(Node* node){
+    if(node == NULL){
         return;
     }
-    printf("%d", root->key);
-    vsd_traversal(root->left);
-    vsd_traversal(root->right);
+    sdv_traversal_helper(node->left);
+    sdv_traversal_helper(node->right);
+    printf("%d", node->key);
 }
 
 /**
  * Perform a post-order traversal of the binary tree rooted at 'root' and print the keys.
- * @param root The root of the binary tree.
+ * @param tree The pointer of the binary tree.
  */
-void sdv_traversal(Node* root){
-    if(root == NULL){
-        return;
-    }
-    sdv_traversal(root->left);
-    sdv_traversal(root->right);
-    printf("%d", root->key);
+void sdv_traversal(BinaryTree *tree){
+    printf("The tree in a Post-order traversal:");
+    sdv_traversal_helper(tree->root);
 }
 
 /**
  * Store nodes in in-order traversal in an array
- * @param root The root of the binary tree.
+ * @param node The node of the binary tree.
  * @param nodes The array to store the nodes.
  * @param index The current index in the array.
  */
-void store_in_order(Node* root, Node** nodes, int* index) {
-    if (root == NULL) {
+void store_in_order(Node* node, Node** nodes, int* index) {
+    if (node == NULL) {
         return;
     }
-    store_in_order(root->left, nodes, index);
-    nodes[(*index)++] = root;
-    store_in_order(root->right, nodes, index);
+    store_in_order(node->left, nodes, index);
+    nodes[(*index)++] = node;
+    store_in_order(node->right, nodes, index);
 }
 
 /**
@@ -180,14 +261,14 @@ void store_in_order(Node* root, Node** nodes, int* index) {
  * @param end The end index of the array.
  * @return The root of the balanced binary search tree.
  */
-Node* sorted_array_to_bst(Node** nodes, int start, int end) {
+Node* convert_array_to_bst(BinaryTree *tree, Node** nodes, int start, int end) {
     if (start > end) {
         return NULL;
     }
     int mid = (start + end) / 2;
-    Node* root = nodes[mid];
-    root->left = sorted_array_to_bst(nodes, start, mid - 1);
-    root->right = sorted_array_to_bst(nodes, mid + 1, end);
+    Node *root= nodes[mid];
+    tree->root->left = convert_array_to_bst(tree, nodes, start, mid - 1);
+    tree->root->right = convert_array_to_bst(tree, nodes, mid + 1, end);
     return root;
 }
 
@@ -196,13 +277,13 @@ Node* sorted_array_to_bst(Node** nodes, int start, int end) {
  * @param root The root of the binary tree.
  * @return The root of the balanced binary tree.
  */
-Node* balance_tree(Node* root) {
-    if (root == NULL) {
+Node* balance_tree(BinaryTree *tree) {
+    if (tree == NULL) {
         return NULL;
     }
 
     int node_count = 0;
-    Node* temp = root;
+    Node* temp = tree->root;
     while (temp != NULL) {
         node_count++;
         temp = temp->right;
@@ -210,9 +291,9 @@ Node* balance_tree(Node* root) {
 
     Node** nodes = (Node**)malloc(node_count * sizeof(Node*));
     int index = 0;
-    store_in_order(root, nodes, &index);
+    store_in_order(tree->root, nodes, &index);
 
-    Node* new_root = sorted_array_to_bst(nodes, 0, node_count - 1);
+    Node* new_root = convert_array_to_bst(tree, nodes, 0, node_count - 1);
 
     free(nodes);
 
@@ -220,80 +301,109 @@ Node* balance_tree(Node* root) {
 }
 
 /**
- * Mirrors the binary tree by swapping the left and right children of every node.
- * @param root The root of the binary tree.
+ *This function is a helper function for mirroring the binary tree.
+ * It swaps the left and right children of every node.
+ * @param node The node of the binary tree.
  */
-void mirror_tree(Node* root) {
-    if (root == NULL) {
+void mirror_tree_helper(Node* node){
+    if (node == NULL) {
         return;
     }
 
-    mirror_tree(root->left);
-    mirror_tree(root->right);
+    mirror_tree_helper(node->left);
+    mirror_tree_helper(node->right);
 
-    Node* temp = root->left;
-    root->left = root->right;
-    root->right = temp;
+    Node* temp = node->left;
+    node->left = node->right;
+    node->right = temp;
+}
+
+/**
+ * Mirrors the binary tree by swapping the left and right children of every node.
+ * @param tree The pointer of the binary tree.
+ */
+void mirror_tree(BinaryTree* tree) {
+    mirror_tree_helper(tree->root);
+}
+
+/**
+ *This function is a helper function for searching a node with a given key in the binary tree.
+ * @param current_node
+ * @param key
+ * @return A pointer to the node with the given key, or NULL if not found.
+ */
+Node *search_by_key_helper(Node *current_node, int key){
+    if (current_node->key == key) {
+        return current_node;
+    }
+    if (current_node->key < key) {
+        return search_by_key_helper(current_node->right, key);
+    }
+    return search_by_key_helper(current_node->left, key);
 }
 
 /**
  * Search for a node with the given key in the binary tree rooted at 'root'.
- * @param root The root of the binary tree.
- * @param key The key value to search_by_key for.
- * @return A pointer to the node with the given key, or NULL if not found.
+ * @param tree The root of the binary tree.
+ * @param key The key value to search_node_by_key for.
  */
-Node* search_by_key(Node* root, int key) {
-    if (root->key == key) {
-        return root;
-    }
-    if (root->key < key) {
-        return search_by_key(root->right, key);
-    }
-    return search_by_key(root->left, key);
+Node* search_node_by_key(BinaryTree *tree, int key) {
+   if(!tree){
+       return NULL;
+   }
+    search_by_key_helper(tree->root, key);
 }
 
 /**
- * Delete the binary tree rooted at 'root' and free the memory.
- * @param root The root of the binary tree.
+ * Delete the binary tree rooted at 'node' and free the memory.
+ * @param node The node of the binary tree.
  */
-void delete_tree(Node* root) {
-    if (root != NULL) {
-        delete_tree(root->left);
-        delete_tree(root->right);
-        free(root);
+void delete_node(Node* node) {
+    if (node != NULL) {
+        delete_node(node->left);
+        delete_node(node->right);
+        free(node);
     }
 }
 
-
-
 /**
- * Calculate the height of the binary tree.
- * @param root The root of the binary tree.
- * @return The height of the binary tree.
+ *Deletes the binary tree rooted at 'tree' and frees the memory.
+ * @param tree The pointer to the binary tree to be deleted.
  */
-int height(Node* root) {
-    if (root == NULL) {
+void delete_tree(BinaryTree *tree){
+    if(!tree){
+        return;
+    }
+    delete_node(tree->root);
+}
+/**
+ * Calculate the get_height of the binary tree.
+ * @param root The root of the binary tree.
+ * @return The get_height of the binary tree.
+ */
+int get_height(Node* node) {
+    if (node == NULL) {
         return 0;
     }
-    int left_height = height(root->left);
-    int right_height = height(root->right);
+    int left_height = get_height(node->left);
+    int right_height = get_height(node->right);
     return (left_height > right_height) ? left_height + 1 : right_height + 1;
 }
 
 /**
  * Print all nodes at a given level.
- * @param root The root of the binary tree.
+ * @param node The node of the binary tree.
  * @param level The level to print nodes from.
  */
-void print_level(Node* root, int level) {
-    if (root == NULL) {
+void print_level(Node* node, int level) {
+    if (node == NULL) {
         return;
     }
     if (level == 1) {
-        printf("%d ", root->key);
+        printf("%d ", node->key);
     } else if (level > 1) {
-        print_level(root->left, level - 1);
-        print_level(root->right, level - 1);
+        print_level(node->left, level - 1);
+        print_level(node->right, level - 1);
     }
 }
 
@@ -301,10 +411,10 @@ void print_level(Node* root, int level) {
  * Perform a breadth-first search (BSF) traversal of the binary tree using recursion.
  * @param root The root of the binary tree.
  */
-void bsf_traversal_recursive(Node* root) {
-    int h = height(root);
+void bsf_traversal_recursive(BinaryTree* tree) {
+    int h = get_height(tree->root);
     for (int i = 1; i <= h; i++) {
-        print_level(root, i);
+        print_level(tree->root, i);
     }
     printf("\n");
 }
@@ -330,7 +440,7 @@ void print_menu() {
 }
 
 int main() {
-    Node* root = NULL;
+    BinaryTree *binary_tree = create_binary_tree();
     int choice, key;
 
     do {
@@ -342,37 +452,38 @@ int main() {
             case READ_TREE:
                 printf("Key of node:");
                 scanf("%d", &key);
-                insert_node_in_tree(root, key);
+                Iphone new_iphone = read_phone();
+                Node *new_node = create_node(new_iphone, key);
+                insert_node_in_tree(binary_tree, new_node);
                 break;
 
-            case PRINT_FULL_TREE:
+            case PRINT_TREE:
                 printf("The elements of the tree are: ");
-                print_full_tree(root);
+                print_binary_tree(binary_tree);
                 break;
 
             case SEARCH_NODE:
                 printf("Enter the search key: ");
                 scanf("%d", &key);
-                if (search_by_key(root, key) != NULL) {
-                    printf("The node with key %d exists in the tree.\n", key);
+
+                Node *node = search_node_by_key(binary_tree,key);
+                if (node) {
+                    print_node(node);
                 } else {
                     printf("The node with key %d does not exist in the tree.\n", key);
                 }
                 break;
 
             case SVD:
-                printf("The tree in a In-order traversal:");
-                svd_traversal(root);
+                svd_traversal(binary_tree);
                 break;
 
             case VSD:
-                printf("The tree in a Pre-order traversal:");
-                vsd_traversal(root);
+                vsd_traversal(binary_tree);
                 break;
 
             case SDV:
-                printf("The tree in a Post-order traversal:");
-                sdv_traversal(root);
+                sdv_traversal(binary_tree);
                 break;
 
             case BSF:
@@ -389,19 +500,18 @@ int main() {
                 break;
 
             case TREE_MIRROR:
-                mirror_tree(root);
+                mirror_tree(binary_tree);
                 printf("The tree is mirrored");
                 break;
 
             case CLEAN_TREE:
-                delete_tree(root);
-                root = NULL;
+                delete_tree(binary_tree);
                 printf("The tree has been cleaned.\n");
                 break;
 
             case FREE_MEMORY:
-                delete_tree(root);
-                root = NULL;
+                delete_tree(binary_tree);
+                free(binary_tree);
                 printf("The memory of the tree has been freed.\n");
                 break;
 

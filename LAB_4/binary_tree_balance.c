@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Structura pentru un nod din arbore
 typedef struct Node {
     int key;
     char *name;
@@ -25,7 +24,7 @@ Node* read_node() {
     scanf("%s", new_node->name);
     printf("Enter age: ");
     scanf("%d", &new_node->age);
-    printf("Enter height: ");
+    printf("Enter get_height: ");
     scanf("%f", &new_node->height);
     new_node->left = NULL;
     new_node->right = NULL;
@@ -80,12 +79,12 @@ void dfs_traversal(Node* root) {
 }
 
 // Funcția pentru calculul înălțimii unui nod
-int height(Node* node) {
-    if (node == NULL) {
+int get_height(Node* root) {
+    if (root == NULL) {
         return 0;
     }
-    int left_height = height(node->left);
-    int right_height = height(node->right);
+    int left_height = get_height(root->left);
+    int right_height = get_height(root->right);
     return (left_height > right_height) ? left_height + 1 : right_height + 1;
 }
 
@@ -104,7 +103,7 @@ void print_level(Node* root, int level) {
 
 // Funcția pentru parcurgerea arborelui în lărgime (BFS) folosind coada
 void bfs_traversal(Node* root) {
-    int h = height(root);
+    int h = get_height(root);
     for (int i = 1; i <= h; i++) {
         print_level(root, i);
     }
@@ -134,6 +133,77 @@ void mirror_tree(Node* root) {
     // Aplicăm oglindirea pe subarborii stâng și drept
     mirror_tree(root->left);
     mirror_tree(root->right);
+}
+
+// Funcția pentru calculul factorului de echilibru al unui nod
+int balance_factor(Node* node) {
+    if (node == NULL) {
+        return 0;
+    }
+    return get_height(node->left) - get_height(node->right);
+}
+
+// Funcția pentru rotirea la dreapta a unui nod
+Node* rotate_right(Node* node) {
+    Node* new_root = node->left;
+    node->left = new_root->right;
+    new_root->right = node;
+    return new_root;
+}
+
+// Funcția pentru rotirea la stânga a unui nod
+Node* rotate_left(Node* node) {
+    Node* new_root = node->right;
+    node->right = new_root->left;
+    new_root->left = node;
+    return new_root;
+}
+
+// Funcția pentru balansarea unui nod
+Node* balance_node(Node* node) {
+    if (node == NULL) {
+        return NULL;
+    }
+
+    // Calculăm factorul de echilibru al nodului
+    int balance = balance_factor(node);
+
+    // Dacă nodul este dezechilibrat spre stânga
+    if (balance > 1) {
+        // Verificăm dacă subarborele stâng este dezechilibrat spre stânga sau spre dreapta
+        if (balance_factor(node->left) > 0) {
+            // Dacă este dezechilibrat spre stânga, aplicăm o rotație la dreapta
+            node->left = rotate_left(node->left);
+        }
+        // Aplicăm o rotație la dreapta pe nodul curent
+        return rotate_right(node);
+    }
+        // Dacă nodul este dezechilibrat spre dreapta
+    else if (balance < -1) {
+        // Verificăm dacă subarborele drept este dezechilibrat spre stânga sau spre dreapta
+        if (balance_factor(node->right) < 0) {
+            // Dacă este dezechilibrat spre dreapta, aplicăm o rotație la stânga
+            node->right = rotate_right(node->right);
+        }
+        // Aplicăm o rotație la stânga pe nodul curent
+        return rotate_left(node);
+    }
+
+    return node;
+}
+
+// Funcția pentru balansarea întregului arbore
+Node* balance_tree(Node* root) {
+    if (root == NULL) {
+        return NULL;
+    }
+
+    // Balansăm fiecare nod din arbore
+    root = balance_node(root);
+    root->left = balance_tree(root->left);
+    root->right = balance_tree(root->right);
+
+    return root;
 }
 
 // Funcția pentru curățarea elementelor arborelui
