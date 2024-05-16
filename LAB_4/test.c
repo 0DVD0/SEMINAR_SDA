@@ -241,20 +241,33 @@ void sdv_traversal(BinaryTree *tree){
 }
 
 /**
- * Store nodes in in-order traversal in an array
+ * Store array_of_nodes in in-order traversal in an array
  * @param node The node of the binary tree.
- * @param nodes The array to store the nodes.
+ * @param array_of_nodes The array to store the array_of_nodes.
  * @param index The current index in the array.
  */
-void store_in_order(Node* node, Node** nodes, int* index) {
+void store_nodes_in_array_helper(Node* node, Node** array_of_nodes, int* index) {
     if (node == NULL) {
         return;
     }
-    store_in_order(node->left, nodes, index);
-    nodes[(*index)++] = node;
-    store_in_order(node->right, nodes, index);
+    store_nodes_in_array_helper(node->left, array_of_nodes, index);
+    array_of_nodes[(*index)++] = node;
+    store_nodes_in_array_helper(node->right, array_of_nodes, index);
 }
 
+/**
+ * This function stores the nodes of the binary tree in an array in an in-order traversal.
+ * @param tree The pointer to the binary tree.
+ * @param nodes_count The number of nodes in the binary tree.
+ * @return A pointer to an array of pointers to the nodes in the binary tree.
+ *         The array is dynamically allocated and should be freed by the caller.
+ */
+Node ** store_BST_in_array(BinaryTree *tree, int nodes_count){
+    int index = 0;
+    Node** array_of_nodes = (Node**)malloc(sizeof(Node*) * nodes_count);
+    store_nodes_in_array_helper(tree->root, array_of_nodes, &index);
+    return array_of_nodes;
+}
 /**
  * Convert a sorted array of nodes to a balanced binary search tree.
  * @param nodes The array of sorted nodes.
@@ -262,14 +275,14 @@ void store_in_order(Node* node, Node** nodes, int* index) {
  * @param end The end index of the array.
  * @return The root of the balanced binary search tree.
  */
-Node* convert_array_to_bst(BinaryTree *tree, Node** nodes, int start, int end) {
+Node* convert_array_to_BST(BinaryTree *tree, Node** nodes, int start, int end) {
     if (start > end) {
         return NULL;
     }
     int mid = (start + end) / 2;
     Node *root= nodes[mid];
-    tree->root->left = convert_array_to_bst(tree, nodes, start, mid - 1);
-    tree->root->right = convert_array_to_bst(tree, nodes, mid + 1, end);
+    tree->root->left = convert_array_to_BST(tree, nodes, start, mid - 1);
+    tree->root->right = convert_array_to_BST(tree, nodes, mid + 1, end);
     return root;
 }
 
@@ -290,11 +303,9 @@ Node* balance_tree(BinaryTree *tree) {
         temp = temp->right;
     }
 
-    Node** nodes = (Node**)malloc(node_count * sizeof(Node*));
-    int index = 0;
-    store_in_order(tree->root, nodes, &index);
+    Node** nodes = store_BST_in_array(tree, node_count);
 
-    Node* new_root = convert_array_to_bst(tree, nodes, 0, node_count - 1);
+    Node* new_root = convert_array_to_BST(tree, nodes, 0, node_count - 1);
 
     free(nodes);
 
