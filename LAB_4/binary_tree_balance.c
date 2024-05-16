@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#define BUFFER_SIZE 250
 
 typedef struct iphone{
     char *model;
@@ -51,19 +53,22 @@ BinaryTree *create_binary_tree(){
  * @return An initialized Iphone structure.
  */
 Iphone read_phone() {
+    char model_name[BUFFER_SIZE];
     Iphone* new_phone = (Iphone*)malloc(sizeof(Iphone));
     if (new_phone == NULL) {
         printf("Memory allocation error.\n");
         exit(EXIT_FAILURE);
     }
-    new_phone->model = (char*)malloc(sizeof(char) * 10);
+
+    printf("Iphone model:");
+    scanf("%[^\n]s", model_name);
+   unsigned long int lenght = strlen(model_name);
+    new_phone->model = (char*)malloc(sizeof(char) * lenght);
     if (new_phone->model == NULL) {
         printf("Memory allocation error.\n");
         exit(EXIT_FAILURE);
     }
-    printf("Iphone model:");
-    scanf("%s", new_phone->model);
-    printf("\n-----Model: %s-----\n", new_phone->model);
+    strcpy(new_phone->model,model_name);
     printf("Iphone price:");
     scanf("%d", &(new_phone->price));
     printf("Iphone year:");
