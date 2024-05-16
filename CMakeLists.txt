@@ -7,5 +7,6 @@ add_executable(car.c
         cons.c
         Lab2.c
         LAB3_.c
+        LAB_5/Lab_5.c
 
 )
