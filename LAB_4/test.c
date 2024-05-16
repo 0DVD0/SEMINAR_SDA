@@ -42,7 +42,7 @@ enum CHOICE{
  * @return A pointer to the newly created BinaryTree structure
  */
 BinaryTree *create_binary_tree(){
-    BinaryTree *Tree = (BinaryTree *) malloc(sizeof(BinaryTree));
+    BinaryTree *Tree = (BinaryTree *) calloc(1, sizeof(BinaryTree));
     return Tree;
 }
 
@@ -63,6 +63,7 @@ Iphone read_phone() {
     }
     printf("Iphone model:");
     scanf("%s", new_phone->model);
+    printf("\n-----Model: %s-----\n", new_phone->model);
     printf("Iphone price:");
     scanf("%d", &(new_phone->price));
     printf("Iphone year:");
@@ -443,6 +444,9 @@ int main() {
     BinaryTree *binary_tree = create_binary_tree();
     int choice, key;
 
+    printf("Binaray tree\n");
+    print_binary_tree(binary_tree)
+    ;
     do {
         print_menu();
         printf("Choose an option: ");
@@ -465,13 +469,13 @@ int main() {
             case SEARCH_NODE:
                 printf("Enter the search key: ");
                 scanf("%d", &key);
-
                 Node *node = search_node_by_key(binary_tree,key);
-                if (node) {
-                    print_node(node);
-                } else {
-                    printf("The node with key %d does not exist in the tree.\n", key);
-                }
+                    if (node->key == key) {
+                        print_node(node);
+                    } else {
+                        printf("this key is not found in any node");
+                    }
+
                 break;
 
             case SVD:
@@ -488,14 +492,14 @@ int main() {
 
             case BSF:
                 printf("The tree in BSF traversal:");
-                bsf_traversal_recursive(root);
+                bsf_traversal_recursive(binary_tree);
                 break;
 
             case DSF:
                 break;
 
             case TREE_BALANCE:
-                root = balance_tree(root);
+               binary_tree->root = balance_tree(binary_tree);
                 printf("The tree has been balanced");
                 break;
 
