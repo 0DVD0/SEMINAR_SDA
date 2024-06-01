@@ -1,3 +1,0 @@
-C:/Users/Asus/Desktop/SEMINAR SDA/cmake-build-debug/CMakeFiles/SEMINAR_SDA.dir
-C:/Users/Asus/Desktop/SEMINAR SDA/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/Asus/Desktop/SEMINAR SDA/cmake-build-debug/CMakeFiles/rebuild_cache.dir
