@@ -2,15 +2,26 @@
 #include <stdlib.h>
 #include <time.h>
 
-// Function to initialize the array with random numbers
+/**
+ * This function takes an integer pointer to an array and its size as parameters.
+ * It then iterates over each element of the array and assigns a random number between 0 and 999 to it.
+ *
+ * @param arr Pointer to the array to be initialized.
+ * @param size Size of the array.
+ */
 void init_array(int *arr, int size) {
-    srand(time(NULL)); // Initialize random seed
+    srand(time(NULL));
     for (int i = 0; i < size; i++) {
-        arr[i] = rand() % 100; // Generate random numbers between 0 and 99
+        arr[i] = rand() % 1000;
     }
 }
 
-// Function to print the array
+/**
+ * This function prints the elements of an integer array to the console.
+ *
+ * @param arr Pointer to the array to be printed.
+ * @param size Size of the array.
+ */
 void print_array(int *arr, int size) {
     printf("Array: ");
     for (int i = 0; i < size; i++) {
@@ -19,20 +30,38 @@ void print_array(int *arr, int size) {
     printf("\n");
 }
 
-// Function to free dynamically allocated memory
+/**
+ * This function frees the alocated memory of the array.
+ * @param arr the array
+ **/
 void free_array(int *arr) {
     free(arr);
 }
 
-// Function to swap two elements
+/**
+* This function swaps the values of two integer pointers.
+*
+* @param a Pointer to the first integer.
+* @param b Pointer to the second integer.
+*
+*/
 void swap(int *a, int *b) {
     int temp = *a;
     *a = *b;
     *b = temp;
 }
 
-// Bubble Sort
+/**
+* This function sorts an integer array using the Bubble Sort algorithm.
+*
+* @param arr Pointer to the array to be sorted.
+* @param size Size of the array.
+*
+*/
 void bubbleSort(int *arr, int size) {
+    clock_t start, end;
+    double time;
+    start = clock();
     for (int i = 0; i < size - 1; i++) {
         for (int j = 0; j < size - i - 1; j++) {
             if (arr[j] > arr[j + 1]) {
@@ -40,9 +69,20 @@ void bubbleSort(int *arr, int size) {
             }
         }
     }
+    end = clock() - start;
+    time = (double) end/ CLOCKS_PER_SEC;
+    printf("time needed for sorting: %f seconds\n", time);
 }
 
-// Merge Sort
+/**
+ * This function merges two subarrays of the array.
+ *
+ * @param array Pointer to the array to be sorted.
+ * @param left The starting index of the first subarray.
+ * @param middle The ending index of the first subarray and starting index of the second subarray.
+ * @param right The ending index of the second subarray.
+ *
+ */
 void merge(int array[], int left, int middle, int right) {
     int n1 = middle - left + 1;
     int n2 = right - middle;
@@ -79,6 +119,14 @@ void merge(int array[], int left, int middle, int right) {
     }
 }
 
+/**
+* This function performs a merge sort on an integer array.
+*
+* @param array Pointer to the array to be sorted.
+* @param left The starting index of the array to be sorted.
+* @param right The ending index of the array to be sorted.
+*
+*/
 void merge_sort(int array[], int left, int right) {
     if (left < right) {
         int middle = left + (right - left) / 2;
@@ -90,6 +138,11 @@ void merge_sort(int array[], int left, int right) {
     }
 }
 
+/**
+ * This function displays the menu options for the Fibonacci program.
+ * It prints the available choices to the console.
+ *
+ */
 void show_menu() {
     printf("1. Initialize Array with Random Numbers\n");
     printf("2. Print Array\n");
@@ -104,11 +157,9 @@ int main() {
     int choice, size_of_array;
     int *array;
     clock_t start, end;
+    double time;
 
-    printf("Enter the size_of_array of the array: ");
-    scanf("%d", &size_of_array);
 
-    array = (int *)malloc(size_of_array * sizeof(int));
 
     do {
         show_menu();
@@ -116,6 +167,9 @@ int main() {
 
         switch (choice) {
             case 1:
+                printf("Enter the size of the array: ");
+                scanf("%d", &size_of_array);
+                array = (int *)malloc(size_of_array * sizeof(int));
                 init_array(array, size_of_array);
                 printf("Array initialized with random numbers.\n");
                 break;
@@ -123,15 +177,15 @@ int main() {
                 print_array(array, size_of_array);
                 break;
             case 3:
-                start = clock();
                 bubbleSort(array, size_of_array);
-                end = clock() - start;
-                double time = (double) end/ CLOCKS_PER_SEC;
-                printf("time needed for sorting: %f seconds\n", time);
                 break;
             case 4:
+                start = clock();
                 merge_sort(array, 0, size_of_array - 1);
                 printf("Array sorted using Merge Sort.\n");
+                end = clock() - start;
+                time = (double) end/ CLOCKS_PER_SEC;
+                printf("time needed for sorting: %f seconds\n", time);
                 break;
             case 5:
                 free_array(array);
